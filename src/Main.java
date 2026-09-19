@@ -15,8 +15,8 @@ public class Main{
 
 //        lesson4_2_med_1();
 //        lesson4_2_med_2();
-        lesson4_2_high_1();
-//        lesson4_2_high_2();
+//        lesson4_2_high_1();
+        lesson4_2_high_2();
     }
 
     /** 4.1 Массивы, Средний
@@ -346,16 +346,55 @@ public class Main{
     }
 
     /** 4.2 Двухмерные массивы, Высокий
-     *
+     * Дан массив фамилий студентов 1-го курса и массив их результатов в беге на 100 метров.
+     * Составьте команду из четырех лучших бегунов для участия в эстафете.
      *
      * Проверочные значения:
      * Ввод:
-     *
+     * 5
+     * abc 12.32
+     * ads 16.4
+     * fdg 2.3
+     * goj 7.5
+     * win 1.1
      * Вывод:
-     *
+     * 0. win - 1.10
+     * 1. fdg - 2.30
+     * 2. goj - 7.50
+     * 3. abc - 12.32
      */
     static void lesson4_2_high_2(){
+        Scanner sc = new Scanner(System.in);
 
+        System.out.print("Enter runners count: ");
+        int n = sc.nextInt();
+
+        String[] name = new String[n];
+        double[] time = new double[n];
+
+        System.out.print("Enter runners (name time):\n");
+
+        for (int i = 0; i < n; i++) {
+            name[i] = sc.next();
+            time[i] = sc.nextDouble();
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (time[i] > time[j]){
+                    double t = time[j];
+                    time[j] = time[i];
+                    time[i] = t;
+                    String nm = name[j];
+                    name[j] = name[i];
+                    name[i] = nm;
+                }
+            }
+        }
+        System.out.println("Best four runners:");
+        for (int i = 0; i < 4; i++) {
+            System.out.printf("%d. %s - %2.2f\n", i, name[i], time[i]);
+        }
     }
 
 }
