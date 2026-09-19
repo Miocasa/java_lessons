@@ -14,8 +14,8 @@ public class Main{
 //        lesson4_1_high_2();
 
 //        lesson4_2_med_1();
-        lesson4_2_med_2();
-//        lesson4_2_high_1();
+//        lesson4_2_med_2();
+        lesson4_2_high_1();
 //        lesson4_2_high_2();
     }
 
@@ -150,7 +150,7 @@ public class Main{
 
 
     /** 4.2 Двухмерные массивы, Средний
-     * В произвольной матрице - отсортировать по убыванию элементы последовательности, расположенные после второго отрицательного числа.
+     * 1. В произвольной матрице - отсортировать по убыванию элементы последовательности, расположенные после второго отрицательного числа.
      *
      * Проверочные значения:
      * Ввод:
@@ -238,7 +238,7 @@ public class Main{
 
 
     /** 4.2 Двухмерные массивы, Средний
-     * Необходимо заполнить двухмерный массив из 0 и 1. А после его вывода -
+     * 2. Необходимо заполнить двухмерный массив из 0 и 1. А после его вывода -
      * массив должен иметь следующий вид:
      * 0 1 0 1
      * 1 0 1 0
@@ -278,16 +278,73 @@ public class Main{
     }
 
     /** 4.2 Двухмерные массивы, Высокий
-     *
+     * 1. Определить радиус и центр окружности, на которой лежит наибольшее
+     * число точек заданного на плоскости массива точек А(xi, yi).
      *
      * Проверочные значения:
      * Ввод:
-     *
+     * 5
+     * 0 1
+     * 1 0
+     * 0 -1
+     * -1 0
+     * 2 2
      * Вывод:
      *
      */
     static void lesson4_2_high_1(){
+        Scanner sc = new Scanner(System.in);
 
+        // ((x1*x1 + y1*y1) *(y2 - y3) + (x2*x2 + y2*y2)*(y3 - y1) + (x3*x3 + y3*y3)*(y1 - y2)) / D
+        System.out.print("Enter point count: ");
+        int n = sc.nextInt();
+        double[][] points = new double[n][2];
+
+        System.out.println("Enter points (x, y): ");
+
+        for (int i = 0; i < n; i++) {
+            points[i][0] = sc.nextDouble();
+            points[i][1] = sc.nextDouble();
+        }
+
+
+        int maxCount = 0;
+        double bestX = 0, bestY = 0, bestR = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+
+                    double x1 = points[i][0], y1 = points[i][1];
+                    double x2 = points[j][0], y2 = points[j][1];
+                    double x3 = points[k][0], y3 = points[k][1];
+
+                    double d = 2 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
+
+                    double x0 = ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / d;
+                    double y0 = ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / d;
+
+                    double r = Math.hypot(x1 - x0, y1 - y0);
+
+                    int count = 0;
+                    for (int m = 0; m < n; m++) {
+                        double dist = Math.hypot(points[m][0] - x0, points[m][1] - y0);
+                        count++;
+
+                    }
+
+                    if (count > maxCount) {
+                        maxCount = count;
+                        bestX = x0;
+                        bestY = y0;
+                        bestR = r;
+                    }
+                }
+            }
+        }
+
+        System.out.printf("Center: (%.2f, %.2f), Radius: %.2f, Points count: %d\n",
+                bestX, bestY, bestR, maxCount);
     }
 
     /** 4.2 Двухмерные массивы, Высокий
