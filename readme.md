@@ -1,3 +1,3 @@
 ## Lessons
 
-- Unit №4, third week(this branch)
+- Unit №4. Массивы, (third week, this branch)
