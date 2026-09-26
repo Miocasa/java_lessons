@@ -5,14 +5,21 @@ import java.util.Scanner;
 
 import static java.lang.Math.*;
 
-/**
- * Вариант А
- */
+
 public class Main{
     public static void main(String[] args) {
-        variant_A();
+//        variant_A();
+        variant_B();
     }
-
+    /**
+     * Вариант А
+     * Customer: id, Фамилия, Имя, Отчество, Адрес, Номер кредитной карточки,
+     * Номер банковского счета.
+     * Создать массив объектов. Вывести:
+     * a) список покупателей в алфавитном порядке;
+     * b) список покупателей, у которых номер кредитной карточки находится
+     * в заданном интервале.
+     */
     static void variant_A() {
         Scanner sc = new Scanner(System.in);
         Customer[] cus = new Customer[]{
@@ -134,5 +141,38 @@ public class Main{
                 System.out.println(c);
         }
     }
+    /**
+     * Вариант В
+     * Определить класс Комплекс. Создать массив/список/множество размерности n из комплексных координат.
+     * Передать его в метод, который выполнит сложение/умножение его элементов.
+     */
+    static void variant_B() {
+        Scanner sc = new Scanner(System.in);
+        Complex[] numbers = new Complex[] {
+                new Complex(1, 2),
+                new Complex(3, -4),
+                new Complex(2, 5),
+                new Complex(-1, 1)
+        };
+        System.out.println("Start massive");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.printf("z%d = %s\n", i + 1, numbers[i]);
+        }
+        System.out.println();
+
+        Complex sum = new Complex(0,0);
+        Complex prd = new Complex(1,0);
+
+        for (Complex c : numbers){
+            sum = sum.plus(c);
+            prd = sum.times(c);
+        }
+
+        System.out.printf("Summary: %s\n", sum);
+        System.out.printf("Product: %s\n", prd);
+
+    }
+
+
 }
 
