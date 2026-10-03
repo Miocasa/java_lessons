@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
-        variant_A();
-//        variant_B();
+//        variant_A();
+        variant_B();
     }
     /**
      * Car: id, Марка, Модель, Год выпуска, Цвет, Цена, Регистрационный номер.
@@ -112,34 +112,32 @@ public class Main{
     }
     /**
      * Вариант В
-     * Определить класс Комплекс. Создать массив/список/множество размерности n из комплексных координат.
-     * Передать его в метод, который выполнит сложение/умножение его элементов.
+     * Определить класс Точка на плоскости (в пространстве) и во времени.
+     * Задать движение точки в определенном направлении. Создать методы по
+     * определению скорости и ускорения точки. Проверить для двух точек возможность пересечения траекторий. Определить расстояние между двумя
+     * точками в заданный момент времени.
      */
     static void variant_B() {
         Scanner sc = new Scanner(System.in);
-        Complex[] numbers = new Complex[] {
-                new Complex(1, 2),
-                new Complex(3, -4),
-                new Complex(2, 5),
-                new Complex(-1, 1)
-        };
-        System.out.println("Start massive");
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.printf("z%d = %s\n", i + 1, numbers[i]);
-        }
-        System.out.println();
+        Point p1 = new Point(0, 0, 1, 1, 0, 0);
+        Point p2 = new Point(4, 0, -1, 1, 0, 0);
 
-        Complex sum = new Complex(0,0);
-        Complex prd = new Complex(1,0);
+        System.out.printf("p1 at t=2: %f; %f\n",p1.get_x_at(2), p1.get_y_at(2));
+        System.out.printf("Speed of p1: %f\n", p1.speed_at(0));
+        System.out.printf("Acceleration of p1: %f\n", p1.acceleration());
+        System.out.printf("Distance at t=0: %f\n", p1.distance(p2, 0));
+        System.out.printf("Distance at t=2: %f\n", p1.distance(p2, 2));
+        System.out.printf("Trajectories intersect: %s\n", p1.intersects(p2));
 
-        for (Complex c : numbers){
-            sum = sum.plus(c);
-            prd = sum.times(c);
-        }
+        Point p3 = new Point(0, 1, 1, 1, 0, 0);
+        System.out.printf("p1 and p3 intersect: %s\n", p1.intersects(p3));
 
-        System.out.printf("Summary: %s\n", sum);
-        System.out.printf("Product: %s\n", prd);
-
+        Point a = new Point(1, 2);
+        Point b = new Point(4, 6);
+        System.out.printf("a + b = %s\n", a.add(b));
+        System.out.printf("a - b = %s\n", a.subtract(b));
+        System.out.printf("a * 3 = %s\n", a.multiply(3));
+        System.out.printf("b / 2 = %s\n", b.divide(2));
     }
 
 
