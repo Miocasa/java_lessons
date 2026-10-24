@@ -11,6 +11,7 @@ public class Main{
     public static void main(String[] args) {
         variant_A();
 //        variant_B();
+//        variant_C();
     }
 
     // Интерйфейс - срс
@@ -124,6 +125,107 @@ public class Main{
         }
     }
 
+    /** Variant C (String) practic
+     * 1. Проверить, является ли строка сильным паролем. Пароль считается сильным,
+     * если его длина больше либо равна 10 символам, он содержит как минимум
+     * одну цифру, одну букву в верхнем и одну букву в нижнем регистре. Пароль
+     * может содержать только латинские буквы и/или цифры, а также символ «_».
+     */
+    static void variant_C(){
+        Scanner sc = new Scanner(System.in);
+
+        int res = passwordStrength("%$фа1234"); // 8 < 10, no upper & not latin char
+//        int res = passwordStrength("Abcddas23232_"); // correct
+//        int res = passwordStrength("Abcddas23232"); // correct
+//        int res = passwordStrength("Pass1234"); // 8 < 10
+//        int res = passwordStrength("gbcddas23232"); // no upper
+//        int res = passwordStrength("gbcddasdsdsds"); // no upper & digit
+//        int res = passwordStrength("ABCDDAS23232_"); // no lower
+
+
+//        System.out.printf("0x%02X\n", res);
+
+        if(res == 0) {
+            System.out.printf("PAssword strength enough\n");
+            return;
+        }
+        System.out.printf("Password have next problems (raw value 0x%02X):\n", res);
+        if ((res & PasswordProblems.TOO_SHORT.getCode()) >= 1)
+            System.out.println("\tToo short password");
+        if ((res & PasswordProblems.NO_DIGIT.getCode()) >= 1) // if ((res & PasswordProblems.NO_DIGIT.getCode()) >> 1)  == 1
+            System.out.println("\tPassword not contains any digit");
+        if ((res & PasswordProblems.NO_UPPERCASE.getCode()) >= 1)
+            System.out.println("\tPassword not contains uppercase character");
+        if ((res & PasswordProblems.NO_LOWERCASE.getCode()) >= 1)
+            System.out.println("\tPassword not contains lowercase character");
+        if ((res & PasswordProblems.IS_NOT_LATIN.getCode()) >= 1)
+            System.out.println("\tPassword contains not Latin symbol");
+    }
+
+    public enum PasswordProblems{
+        TOO_SHORT(0b00000001),
+        NO_DIGIT(0b00000010),
+        NO_UPPERCASE(0b00000100),
+        NO_LOWERCASE(0b00001000),
+        IS_NOT_LATIN(0b00010000);
+
+        private final int code;
+        PasswordProblems(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+    }
+
+    public static boolean isLatinLetter(char c) {
+        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    }
+
+    static int passwordStrength(String password) {
+        int result = 0x00;
+        if(password.length() < 10)
+            result |= PasswordProblems.TOO_SHORT.getCode();
+
+        boolean digitFound = false;
+        boolean charUpper = false;
+        boolean charLower = false;
+        boolean isNonLatin = false;
+
+        for (int i = 0; i < password.length(); i++) {
+
+            char ch = password.charAt(i);
+            boolean isDigit = ch >= '0' && ch <= '9'; // = Character.isDigit(ch);
+            boolean isUpper = ch >= 'A' && ch <= 'Z'; // = Character.isUpperCase(ch);
+            boolean isLower = ch >= 'a' && ch <= 'z'; // = Character.isLowerCase(ch);
+
+            if (isDigit) {
+                digitFound = true;
+            }
+            if (isUpper) {
+                charUpper = true;
+            }
+            if (isLower) {
+                charLower = true;
+            }
+            if (!isLatinLetter(ch) && !isDigit && ch != '_') {
+                isNonLatin = true;
+            }
+        }
+
+        if(!digitFound)
+            result |= PasswordProblems.NO_DIGIT.getCode();
+        if(!charUpper)
+            result |= PasswordProblems.NO_UPPERCASE.getCode();
+        if(!charLower)
+            result |= PasswordProblems.NO_LOWERCASE.getCode();
+        if(isNonLatin)
+            result |= PasswordProblems.IS_NOT_LATIN.getCode();
+
+
+        return result;
+    }
 
 }
 
