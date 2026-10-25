@@ -9,11 +9,9 @@ abstract class PublisherBase implements Contracable, Editable, Printable, Payabl
 
     private State state = State.NEW;
     private double price = 0.0;
-    private StringBuilder content = new StringBuilder(); // String
+    private String content = ""; // String
 
-    public String get() {
-        return content.toString();
-    }
+//    val text: String get() = content.toString()
 
     protected void checkState(State[] allowed) {
         for (State s : allowed) {
@@ -80,11 +78,14 @@ abstract class PublisherBase implements Contracable, Editable, Printable, Payabl
         }
         price = money;
     }
+    public String getContent() {
+        return content;
+    }
 
     public void pay(double money) {
         checkState(State.SENT_TO_PRINT);
         if (money < price) {
-            throw new IllegalArgumentException("Not enough money: need $price, got $money");
+            throw new IllegalArgumentException(String.format("Not enough money: need %.2f, got %.2f", price, money));
         }
         state = State.PAID;
     }
