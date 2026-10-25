@@ -57,7 +57,7 @@ abstract class PublisherBase implements Contracable, Editable, Printable, Payabl
 
     public void edit(String edited) {
         checkState(State.OPENED);
-        content.append(edited);
+        content = edited;
     }
 
     public void makeUp() {
