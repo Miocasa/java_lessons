@@ -8,7 +8,6 @@ public class Main{
 //        variant_C_without_buffer();
     }
 
-
     /** Variant C (files) SRSP
      *  Прочитать текст Java-программы и записать в
      *  другой файл в обратном порядке символы каждой строки.
